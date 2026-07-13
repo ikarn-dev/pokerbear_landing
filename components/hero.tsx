@@ -2,6 +2,7 @@
 
 import { useRef } from "react";
 import { motion, useScroll, useTransform } from "motion/react";
+import { useLenis } from "lenis/react";
 import EncryptionOverlay from "./encryption-overlay";
 
 const EASE = [0.16, 1, 0.3, 1] as const;
@@ -27,6 +28,7 @@ const HEADLINE = ["Play", "sharper.", "Win", "smarter."];
 
 export default function Hero() {
   const ref = useRef<HTMLElement>(null);
+  const lenis = useLenis();
 
   const { scrollYProgress } = useScroll({
     target: ref,
@@ -59,7 +61,7 @@ export default function Hero() {
         {/* Encryption-style cipher glyphs, monochrome and faint over the video */}
         <EncryptionOverlay className="opacity-50" />
         {/* Vignette + fade into page background for seamless blending */}
-        <div className="absolute inset-0 bg-[radial-gradient(120%_120%_at_50%_20%,transparent_20%,rgba(7,7,10,0.55)_65%,#07070a_100%)]" />
+        <div className="absolute inset-0 bg-[radial-gradient(120%_120%_at_50%_20%,transparent_20%,rgba(11,7,8,0.55)_65%,#0b0708_100%)]" />
         <div className="absolute inset-x-0 bottom-0 h-40 bg-gradient-to-b from-transparent to-background" />
       </motion.div>
 
@@ -77,7 +79,7 @@ export default function Hero() {
               <motion.span
                 variants={rise}
                 className={`inline-block ${
-                  i >= 2 ? "text-gradient-gold" : "text-foreground"
+                  i >= 2 ? "text-gradient-brand" : "text-foreground"
                 }`}
               >
                 {word}
@@ -86,6 +88,25 @@ export default function Hero() {
             </span>
           ))}
         </h1>
+
+        <motion.p
+          variants={rise}
+          className="mt-4 max-w-xl text-balance text-base leading-snug text-muted sm:text-lg"
+        >
+          A private football prediction market powered by Arcium — your
+          positions stay encrypted, end to end.
+        </motion.p>
+
+        <motion.div variants={rise} className="mt-6">
+          <button
+            onClick={() =>
+              lenis?.scrollTo("#faq", { offset: -80, duration: 1.4 })
+            }
+            className="rounded-full bg-foreground px-8 py-4 text-base font-medium text-background transition-transform duration-300 hover:scale-[1.03] active:scale-95"
+          >
+            Start predicting
+          </button>
+        </motion.div>
       </motion.div>
     </section>
   );

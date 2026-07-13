@@ -4,16 +4,17 @@
    Design tokens
 --------------------------------------------------------------- */
 :root {
-  --background: #07070a;
-  --background-elevated: #0e0e12;
-  --foreground: #f4f3ee;
-  --muted: #9a988f;
-  --border: rgba(255, 255, 255, 0.08);
+  /* Warm near-black base + cream-white foreground (matches the logo bear) */
+  --background: #0b0708;
+  --background-elevated: #17090d;
+  --foreground: #fdf7f4;
+  --muted: #ad938f;
+  --border: rgba(255, 255, 255, 0.09);
 
-  --gold: #e9c46a;
-  --gold-strong: #f0b429;
-  --emerald: #2dd4a7;
-  --violet: #8b7cff;
+  /* Brand palette — sampled from the logo gradient (orange → hot pink) */
+  --brand-orange: #ff7a18;
+  --brand-coral: #ff3d4f;
+  --brand-pink: #ff1e63;
 }
 
 @theme inline {
@@ -22,12 +23,11 @@
   --color-foreground: var(--foreground);
   --color-muted: var(--muted);
   --color-border: var(--border);
-  --color-gold: var(--gold);
-  --color-gold-strong: var(--gold-strong);
-  --color-emerald: var(--emerald);
-  --color-violet: var(--violet);
+  --color-brand-orange: var(--brand-orange);
+  --color-brand-coral: var(--brand-coral);
+  --color-brand-pink: var(--brand-pink);
 
-  --font-sans: var(--font-geist-sans);
+  --font-sans: var(--font-space-grotesk);
   --font-display: var(--font-bricolage);
   --font-mono: var(--font-geist-mono);
 }
@@ -50,8 +50,20 @@ body {
   background: var(--background);
   color: var(--foreground);
   font-family: var(--font-sans), ui-sans-serif, system-ui, sans-serif;
-  font-feature-settings: "ss01", "cv01", "cv11";
+  font-feature-settings: "kern", "liga", "ss01";
+  letter-spacing: -0.01em;
   overflow-x: hidden;
+}
+
+/* ---------------------------------------------------------------
+   Custom cursor: hide native pointer on fine-pointer devices when the
+   JS-driven cursor is mounted (see components/custom-cursor.tsx).
+--------------------------------------------------------------- */
+@media (pointer: fine) {
+  html.has-custom-cursor,
+  html.has-custom-cursor * {
+    cursor: none !important;
+  }
 }
 
 /* Lenis recommended styles */
@@ -100,9 +112,13 @@ html.lenis body {
   font-size: clamp(2rem, 5vw, 3.75rem);
 }
 
-/* Subtle gradient text */
-.text-gradient-gold {
-  background: linear-gradient(180deg, #fff 0%, var(--gold) 90%);
+/* Brand gradient text (orange → hot pink, from the logo) */
+.text-gradient-brand {
+  background: linear-gradient(
+    100deg,
+    var(--brand-orange) 0%,
+    var(--brand-pink) 100%
+  );
   -webkit-background-clip: text;
   background-clip: text;
   color: transparent;
@@ -126,8 +142,8 @@ html.lenis body {
 }
 
 ::selection {
-  background: var(--gold);
-  color: #07070a;
+  background: var(--brand-pink);
+  color: #ffffff;
 }
 
 /* Reduced motion */

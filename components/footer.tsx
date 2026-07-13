@@ -57,7 +57,7 @@ export default function Footer() {
           className="mb-12 flex flex-col items-center text-center sm:mb-16"
         >
           <h2 className="display-lg text-balance">
-            Ready to <span className="text-gradient-gold">raise</span> your game?
+            Ready to <span className="text-gradient-brand">raise</span> your game?
           </h2>
           <p className="mt-4 max-w-md text-balance text-muted">
             Start free for 14 days. No card required. Cancel anytime.
@@ -80,14 +80,14 @@ export default function Footer() {
               className="flex items-center gap-2.5"
               aria-label="Back to top"
             >
-              <span className="grid size-9 place-items-center rounded-xl bg-gradient-to-br from-gold to-gold-strong text-background">
+              <span className="grid size-9 place-items-center rounded-xl bg-gradient-to-br from-brand-orange to-brand-pink text-background">
                 <svg width="18" height="18" viewBox="0 0 24 24" fill="none">
                   <path
                     d="M12 4c4 0 7 2.9 7 6.8 0 4.5-3.1 8.2-7 8.2s-7-3.7-7-8.2C5 6.9 8 4 12 4Z"
                     fill="currentColor"
                   />
-                  <circle cx="9.3" cy="10.5" r="1" fill="#07070a" />
-                  <circle cx="14.7" cy="10.5" r="1" fill="#07070a" />
+                  <circle cx="9.3" cy="10.5" r="1" fill="#0b0708" />
+                  <circle cx="14.7" cy="10.5" r="1" fill="#0b0708" />
                 </svg>
               </span>
               <span className="font-display text-lg font-semibold">PokerBear</span>
