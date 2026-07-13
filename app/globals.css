@@ -1,0 +1,140 @@
+@import "tailwindcss";
+
+/* ---------------------------------------------------------------
+   Design tokens
+--------------------------------------------------------------- */
+:root {
+  --background: #07070a;
+  --background-elevated: #0e0e12;
+  --foreground: #f4f3ee;
+  --muted: #9a988f;
+  --border: rgba(255, 255, 255, 0.08);
+
+  --gold: #e9c46a;
+  --gold-strong: #f0b429;
+  --emerald: #2dd4a7;
+  --violet: #8b7cff;
+}
+
+@theme inline {
+  --color-background: var(--background);
+  --color-background-elevated: var(--background-elevated);
+  --color-foreground: var(--foreground);
+  --color-muted: var(--muted);
+  --color-border: var(--border);
+  --color-gold: var(--gold);
+  --color-gold-strong: var(--gold-strong);
+  --color-emerald: var(--emerald);
+  --color-violet: var(--violet);
+
+  --font-sans: var(--font-geist-sans);
+  --font-display: var(--font-bricolage);
+  --font-mono: var(--font-geist-mono);
+}
+
+/* ---------------------------------------------------------------
+   Base
+--------------------------------------------------------------- */
+* {
+  border-color: var(--border);
+}
+
+html {
+  /* Lenis drives scrolling; disable native smooth to avoid conflicts */
+  scroll-behavior: auto;
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
+}
+
+body {
+  background: var(--background);
+  color: var(--foreground);
+  font-family: var(--font-sans), ui-sans-serif, system-ui, sans-serif;
+  font-feature-settings: "ss01", "cv01", "cv11";
+  overflow-x: hidden;
+}
+
+/* Lenis recommended styles */
+html.lenis,
+html.lenis body {
+  height: auto;
+}
+
+.lenis.lenis-smooth {
+  scroll-behavior: auto !important;
+}
+
+.lenis.lenis-smooth [data-lenis-prevent] {
+  overscroll-behavior: contain;
+}
+
+.lenis.lenis-stopped {
+  overflow: clip;
+}
+
+/* ---------------------------------------------------------------
+   Typography helpers
+--------------------------------------------------------------- */
+.font-display {
+  font-family: var(--font-display), var(--font-sans), sans-serif;
+}
+
+.text-balance {
+  text-wrap: balance;
+}
+
+/* Fluid display headings */
+.display-xl {
+  font-family: var(--font-display), sans-serif;
+  font-weight: 600;
+  line-height: 0.95;
+  letter-spacing: -0.03em;
+  font-size: clamp(2.75rem, 9vw, 8rem);
+}
+
+.display-lg {
+  font-family: var(--font-display), sans-serif;
+  font-weight: 600;
+  line-height: 1;
+  letter-spacing: -0.025em;
+  font-size: clamp(2rem, 5vw, 3.75rem);
+}
+
+/* Subtle gradient text */
+.text-gradient-gold {
+  background: linear-gradient(180deg, #fff 0%, var(--gold) 90%);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+}
+
+/* ---------------------------------------------------------------
+   Custom scrollbar
+--------------------------------------------------------------- */
+::-webkit-scrollbar {
+  width: 8px;
+}
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+::-webkit-scrollbar-thumb {
+  background: rgba(255, 255, 255, 0.12);
+  border-radius: 999px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: rgba(255, 255, 255, 0.22);
+}
+
+::selection {
+  background: var(--gold);
+  color: #07070a;
+}
+
+/* Reduced motion */
+@media (prefers-reduced-motion: reduce) {
+  * {
+    animation-duration: 0.001ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.001ms !important;
+  }
+}
