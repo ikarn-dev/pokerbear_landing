@@ -6,7 +6,6 @@ import {
 } from "next/font/google";
 import "./globals.css";
 import SmoothScroll from "@/components/smooth-scroll";
-import CustomCursor from "@/components/custom-cursor";
 
 const spaceGrotesk = Space_Grotesk({
   variable: "--font-space-grotesk",
@@ -63,7 +62,6 @@ export default function RootLayout({
         className="min-h-full bg-background text-foreground"
         suppressHydrationWarning
       >
-        <CustomCursor />
         <SmoothScroll>{children}</SmoothScroll>
       </body>
     </html>

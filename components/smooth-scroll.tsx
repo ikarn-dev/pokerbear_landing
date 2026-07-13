@@ -15,14 +15,14 @@ export default function SmoothScroll({ children }: { children: ReactNode }) {
     <ReactLenis
       root
       options={{
-        // Interpolation factor — lower = snappier, higher = floatier
-        lerp: 0.1,
+        // Interpolation factor — higher = snappier, more responsive
+        lerp: 0.16,
         // Wheel smoothing on, touch left native for correct mobile feel
         smoothWheel: true,
         syncTouch: false,
-        wheelMultiplier: 1,
+        wheelMultiplier: 1.25,
         touchMultiplier: 1.5,
-        // Gentle easing curve
+        // Gentle easing curve (applies to programmatic scrollTo)
         easing: (t: number) => Math.min(1, 1.001 - Math.pow(2, -10 * t)),
       }}
     >

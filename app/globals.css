@@ -55,15 +55,11 @@ body {
   overflow-x: hidden;
 }
 
-/* ---------------------------------------------------------------
-   Custom cursor: hide native pointer on fine-pointer devices when the
-   JS-driven cursor is mounted (see components/custom-cursor.tsx).
---------------------------------------------------------------- */
-@media (pointer: fine) {
-  html.has-custom-cursor,
-  html.has-custom-cursor * {
-    cursor: none !important;
-  }
+/* Interactive elements use the native finger pointer */
+button:not(:disabled),
+[role="button"],
+a {
+  cursor: pointer;
 }
 
 /* Lenis recommended styles */
@@ -99,9 +95,9 @@ html.lenis body {
 .display-xl {
   font-family: var(--font-display), sans-serif;
   font-weight: 600;
-  line-height: 0.95;
+  line-height: 1;
   letter-spacing: -0.03em;
-  font-size: clamp(2.75rem, 9vw, 8rem);
+  font-size: clamp(2.25rem, 6vw, 4.75rem);
 }
 
 .display-lg {
@@ -112,12 +108,13 @@ html.lenis body {
   font-size: clamp(2rem, 5vw, 3.75rem);
 }
 
-/* Brand gradient text (orange → hot pink, from the logo) */
+/* Mostly foreground text with a subtle orange brand shade fading in at the bottom */
 .text-gradient-brand {
   background: linear-gradient(
-    100deg,
-    var(--brand-orange) 0%,
-    var(--brand-pink) 100%
+    180deg,
+    var(--foreground) 0%,
+    var(--foreground) 55%,
+    var(--brand-orange) 100%
   );
   -webkit-background-clip: text;
   background-clip: text;

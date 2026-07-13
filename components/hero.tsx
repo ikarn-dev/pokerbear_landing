@@ -24,7 +24,10 @@ const rise = {
   },
 };
 
-const HEADLINE = ["Play", "sharper.", "Win", "smarter."];
+const HEADLINE: readonly (readonly string[])[] = [
+  ["Predict", "privately."],
+  ["Win", "bigger."],
+];
 
 export default function Hero() {
   const ref = useRef<HTMLElement>(null);
@@ -74,17 +77,24 @@ export default function Hero() {
         className="relative z-10 mx-auto flex max-w-4xl flex-col items-center px-6 text-center"
       >
         <h1 className="display-xl text-balance">
-          {HEADLINE.map((word, i) => (
-            <span key={i} className="inline-block overflow-hidden pb-[0.1em]">
-              <motion.span
-                variants={rise}
-                className={`inline-block ${
-                  i >= 2 ? "text-gradient-brand" : "text-foreground"
-                }`}
-              >
-                {word}
-                {i < HEADLINE.length - 1 ? "\u00A0" : ""}
-              </motion.span>
+          {HEADLINE.map((line, lineIndex) => (
+            <span key={lineIndex} className="block">
+              {line.map((word, wordIndex) => (
+                <span
+                  key={wordIndex}
+                  className="inline-block overflow-hidden pb-[0.12em]"
+                >
+                  <motion.span
+                    variants={rise}
+                    className={`inline-block ${
+                      lineIndex === 1 ? "text-gradient-brand" : "text-foreground"
+                    }`}
+                  >
+                    {word}
+                    {wordIndex < line.length - 1 ? "\u00A0" : ""}
+                  </motion.span>
+                </span>
+              ))}
             </span>
           ))}
         </h1>
