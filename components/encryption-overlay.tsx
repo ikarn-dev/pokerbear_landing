@@ -3,13 +3,12 @@
 import { useEffect, useRef } from "react";
 
 /**
- * Encryption-style shader overlay.
+ * Encryption-style overlay.
  *
- * Renders a full-bleed field of scrambling cipher glyphs on a canvas, in pure
- * grayscale (no color), with a soft vertical "scan" of brighter characters —
- * evoking data being encrypted/decrypted. Composited normally (not with a
- * color-mixing blend mode) so it never tints from the video underneath; keep
- * it faint via the `className` opacity so the footage stays fully visible.
+ * A sparse, flat field of grayscale cipher glyphs on a canvas. To stay cheap on
+ * the main thread (so it never fights scrolling), the full field is drawn once,
+ * then each tick only a small batch of random cells is re-scrambled instead of
+ * repainting everything. The rAF loop is paused whenever the hero is off-screen.
  */
 export default function EncryptionOverlay({
   className = "",
@@ -26,9 +25,10 @@ export default function EncryptionOverlay({
     if (ctx === null) return;
 
     const GLYPHS = "01ABCDEF#%&$@/<>[]{}=+*!?";
-    const FONT_SIZE = 16;
-    const MUTATION_RATE = 0.08; // chance a glyph changes each update
-    const STEP_MS = 1000 / 14; // scramble refresh rate (kept low on purpose)
+    const CELL = 22; // grid cell size in px (fewer, larger cells = cheaper)
+    const DENSITY = 0.5; // fraction of cells that show a glyph
+    const UPDATES_PER_TICK = 32; // cells re-scrambled per tick
+    const STEP_MS = 1000 / 12;
 
     const reduceMotion = window.matchMedia(
       "(prefers-reduced-motion: reduce)"
@@ -36,82 +36,107 @@ export default function EncryptionOverlay({
 
     let cols = 0;
     let rows = 0;
-    let glyphs: string[] = [];
-    let seeds: number[] = [];
+    let alphas: number[] = [];
     let dpr = 1;
 
     const randomGlyph = (): string =>
       GLYPHS.charAt(Math.floor(Math.random() * GLYPHS.length));
 
-    const resize = (): void => {
+    const drawCell = (x: number, y: number): void => {
+      const px = x * CELL;
+      const py = y * CELL;
+      ctx.clearRect(px, py, CELL, CELL);
+
+      const alpha = alphas[y * cols + x];
+      if (alpha <= 0) return;
+
+      ctx.fillStyle = `rgba(255, 255, 255, ${alpha})`;
+      ctx.fillText(randomGlyph(), px + 2, py + 2);
+    };
+
+    const build = (): void => {
       const parent = canvas.parentElement ?? canvas;
       const width = parent.clientWidth;
       const height = parent.clientHeight;
 
-      dpr = Math.min(window.devicePixelRatio, 2);
+      // Cap DPR: the effect is faint, so a smaller backing store is plenty.
+      dpr = Math.min(window.devicePixelRatio, 1.5);
       canvas.width = Math.floor(width * dpr);
       canvas.height = Math.floor(height * dpr);
       canvas.style.width = `${width}px`;
       canvas.style.height = `${height}px`;
 
-      cols = Math.ceil(width / FONT_SIZE);
-      rows = Math.ceil(height / FONT_SIZE);
+      cols = Math.ceil(width / CELL);
+      rows = Math.ceil(height / CELL);
 
-      glyphs = new Array<string>(cols * rows);
-      seeds = new Array<number>(cols * rows);
-      for (let i = 0; i < glyphs.length; i += 1) {
-        glyphs[i] = randomGlyph();
-        seeds[i] = Math.random();
+      alphas = new Array<number>(cols * rows);
+      for (let i = 0; i < alphas.length; i += 1) {
+        alphas[i] = Math.random() < DENSITY ? 0.06 + Math.random() * 0.12 : 0;
       }
 
       ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
-      ctx.font = `${FONT_SIZE}px ui-monospace, "SFMono-Regular", Menlo, monospace`;
+      ctx.font = `${CELL - 6}px ui-monospace, "SFMono-Regular", Menlo, monospace`;
       ctx.textBaseline = "top";
-    };
 
-    const drawFrame = (): void => {
-      const width = canvas.width / dpr;
-      const height = canvas.height / dpr;
+      // One-time full draw.
       ctx.clearRect(0, 0, width, height);
-
       for (let y = 0; y < rows; y += 1) {
         for (let x = 0; x < cols; x += 1) {
-          const idx = y * cols + x;
-
-          if (Math.random() < MUTATION_RATE) {
-            glyphs[idx] = randomGlyph();
-          }
-
-          // Flat, uniform faintness per cell — no sweeping wave.
-          const alpha = 0.06 + seeds[idx] * 0.12;
-          ctx.fillStyle = `rgba(255, 255, 255, ${alpha})`;
-          ctx.fillText(glyphs[idx], x * FONT_SIZE, y * FONT_SIZE);
+          drawCell(x, y);
         }
       }
     };
 
-    resize();
-    window.addEventListener("resize", resize);
+    build();
+    window.addEventListener("resize", build);
 
     let rafId = 0;
+    let running = false;
+    let last = 0;
 
-    if (reduceMotion) {
-      // Static, faint single frame — no animation.
-      drawFrame();
-    } else {
-      let last = 0;
-      const loop = (time: number): void => {
-        rafId = window.requestAnimationFrame(loop);
-        if (time - last < STEP_MS) return;
-        last = time;
-        drawFrame();
-      };
+    const loop = (time: number): void => {
       rafId = window.requestAnimationFrame(loop);
-    }
+      if (time - last < STEP_MS) return;
+      last = time;
+
+      for (let n = 0; n < UPDATES_PER_TICK; n += 1) {
+        drawCell(
+          Math.floor(Math.random() * cols),
+          Math.floor(Math.random() * rows)
+        );
+      }
+    };
+
+    const start = (): void => {
+      if (running || reduceMotion) return;
+      running = true;
+      last = 0;
+      rafId = window.requestAnimationFrame(loop);
+    };
+
+    const stop = (): void => {
+      running = false;
+      window.cancelAnimationFrame(rafId);
+    };
+
+    // Only animate while the hero is actually on-screen.
+    const observer = new IntersectionObserver(
+      (entries) => {
+        const entry = entries[0];
+        if (entry !== undefined && entry.isIntersecting) {
+          start();
+        } else {
+          stop();
+        }
+      },
+      { threshold: 0 }
+    );
+    observer.observe(canvas);
 
     return () => {
-      window.cancelAnimationFrame(rafId);
-      window.removeEventListener("resize", resize);
+      observer.disconnect();
+      stop();
+      window.removeEventListener("resize", build);
     };
   }, []);
 

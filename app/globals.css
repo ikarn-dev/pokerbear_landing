@@ -122,20 +122,16 @@ html.lenis body {
 }
 
 /* ---------------------------------------------------------------
-   Custom scrollbar
+   Hidden scrollbar (scrolling still works via Lenis / native)
 --------------------------------------------------------------- */
+html {
+  scrollbar-width: none; /* Firefox */
+  -ms-overflow-style: none; /* legacy Edge/IE */
+}
 ::-webkit-scrollbar {
-  width: 8px;
-}
-::-webkit-scrollbar-track {
-  background: transparent;
-}
-::-webkit-scrollbar-thumb {
-  background: rgba(255, 255, 255, 0.12);
-  border-radius: 999px;
-}
-::-webkit-scrollbar-thumb:hover {
-  background: rgba(255, 255, 255, 0.22);
+  width: 0;
+  height: 0;
+  display: none;
 }
 
 ::selection {
