@@ -47,8 +47,8 @@ export default function Faq() {
   }, [measure]);
 
   // Reserve the tallest answer's worth of space and absorb the difference in a
-  // bottom spacer. Total section height then stays constant whichever item is
-  // open, so the footer never shifts and nothing above moves upward.
+  // bottom spacer, so the section height stays constant and the footer never
+  // shifts when an item opens.
   const maxHeight = heights.length > 0 ? Math.max(...heights) : 0;
   const openHeight = open === null ? 0 : heights[open];
   const spacer = Math.max(0, maxHeight - openHeight);
@@ -56,64 +56,83 @@ export default function Faq() {
   return (
     <section
       id="faq"
-      className="relative mx-auto w-full max-w-3xl px-6 py-16 sm:py-20"
+      className="relative mx-auto w-full max-w-5xl px-6 py-16 sm:py-24 lg:px-10"
     >
       <motion.div
         initial={{ opacity: 0, y: 24 }}
         whileInView={{ opacity: 1, y: 0 }}
         viewport={{ once: true, margin: "-100px" }}
         transition={{ duration: 0.8, ease: EASE }}
-        className="mb-14 text-center"
+        className="mb-12 text-center"
       >
-        <span className="mb-4 inline-block rounded-full border border-border bg-white/5 px-3 py-1 text-xs font-medium uppercase tracking-widest text-muted">
+        <span className="mb-6 inline-flex items-center rounded-full border border-border bg-white/5 px-5 py-2 text-sm font-semibold uppercase tracking-[0.22em] text-foreground/90">
           FAQ
         </span>
         <h2 className="display-lg text-balance">Questions, answered</h2>
-        <p className="mx-auto mt-4 max-w-md text-balance text-muted">
-          Everything you need to know before you go all in.
-        </p>
       </motion.div>
 
-      <div className="flex flex-col gap-3">
+      <div className="flex flex-col gap-2.5">
         {FAQS.map((item, i) => {
           const isOpen = open === i;
+          const number = String(i + 1).padStart(2, "0");
+
           return (
             <motion.div
               key={i}
               initial={{ opacity: 0, y: 16 }}
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true, margin: "-60px" }}
-              transition={{ duration: 0.6, ease: EASE, delay: i * 0.06 }}
-              className={`overflow-hidden rounded-2xl border transition-colors duration-300 ${
+              transition={{ duration: 0.6, ease: EASE, delay: i * 0.05 }}
+              className={`overflow-hidden rounded-2xl border transition-[background-color,border-color,box-shadow] duration-300 ${
                 isOpen
-                  ? "border-white/15 bg-white/[0.04]"
+                  ? "border-brand-orange/55 bg-white/[0.035] shadow-[0_0_0_1px_rgba(255,122,24,0.3),0_0_14px_0_rgba(255,122,24,0.32)]"
                   : "border-border bg-white/[0.015] hover:bg-white/[0.03]"
               }`}
             >
+              {/* Header row: number · question · toggle */}
               <button
                 onClick={() => setOpen(isOpen ? null : i)}
-                className="flex w-full items-center justify-between gap-4 px-5 py-5 text-left sm:px-6"
                 aria-expanded={isOpen}
+                className="flex w-full items-center gap-4 px-5 py-4 text-left sm:gap-5 sm:px-6 sm:py-[18px]"
               >
-                <span className="font-display text-lg font-medium sm:text-xl">
+                <span
+                  className={`w-6 shrink-0 font-mono text-xs tabular-nums transition-colors duration-300 ${
+                    isOpen ? "text-brand-orange" : "text-muted"
+                  }`}
+                >
+                  {number}
+                </span>
+
+                <span className="flex-1 font-display text-[clamp(0.95rem,0.88rem+0.4vw,1.15rem)] font-medium leading-snug tracking-tight">
                   {item.q}
                 </span>
-                <motion.span
-                  animate={{ rotate: isOpen ? 45 : 0 }}
-                  transition={{ duration: 0.3, ease: EASE }}
-                  className="grid size-8 shrink-0 place-items-center rounded-full border border-border text-muted"
+
+                <span
+                  className={`grid size-8 shrink-0 place-items-center rounded-full border transition-colors duration-300 ${
+                    isOpen
+                      ? "border-brand-orange/60 text-brand-orange"
+                      : "border-border text-foreground/55"
+                  }`}
                 >
-                  <svg width="14" height="14" viewBox="0 0 14 14" fill="none">
+                  <motion.svg
+                    width="12"
+                    height="12"
+                    viewBox="0 0 14 14"
+                    fill="none"
+                    animate={{ rotate: isOpen ? 45 : 0 }}
+                    transition={{ duration: 0.3, ease: EASE }}
+                  >
                     <path
                       d="M7 1v12M1 7h12"
                       stroke="currentColor"
-                      strokeWidth="1.6"
+                      strokeWidth="1.7"
                       strokeLinecap="round"
                     />
-                  </svg>
-                </motion.span>
+                  </motion.svg>
+                </span>
               </button>
 
+              {/* Answer — aligned under the question via a matching spacer */}
               <motion.div
                 initial={false}
                 animate={{ height: isOpen ? heights[i] : 0, opacity: isOpen ? 1 : 0 }}
@@ -124,15 +143,19 @@ export default function Faq() {
                   ref={(el) => {
                     answerRefs.current[i] = el;
                   }}
+                  className="flex gap-4 px-5 pb-5 sm:gap-5 sm:px-6"
                 >
-                  <p className="px-5 pb-6 text-muted sm:px-6">{item.a}</p>
+                  <span aria-hidden className="w-6 shrink-0" />
+                  <p className="flex-1 max-w-2xl text-[clamp(0.85rem,0.8rem+0.32vw,0.975rem)] leading-relaxed text-muted">
+                    {item.a}
+                  </p>
                 </div>
               </motion.div>
             </motion.div>
           );
         })}
 
-        {/* Height reserve — see note above. Keeps the section a constant height. */}
+        {/* Height reserve — keeps the section a constant height (footer stays put). */}
         <motion.div
           aria-hidden
           initial={false}

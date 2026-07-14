@@ -6,6 +6,7 @@ import {
 } from "next/font/google";
 import "./globals.css";
 import SmoothScroll from "@/components/smooth-scroll";
+import ContentGuard from "@/components/content-guard";
 
 const spaceGrotesk = Space_Grotesk({
   variable: "--font-space-grotesk",
@@ -28,14 +29,14 @@ const bricolage = Bricolage_Grotesque({
 });
 
 export const metadata: Metadata = {
-  title: "PokerBear — Play sharper, win smarter",
+  title: "PokerBear — Predict privately. Win bigger.",
   description:
-    "PokerBear is the modern poker companion. Real-time odds, hand history, and buttery-smooth analytics built for players who take the game seriously.",
+    "PokerBear is a private, on-chain football prediction market powered by Arcium. Predict privately and win bigger — your positions stay encrypted, end to end.",
   metadataBase: new URL("https://pokerbear.example"),
   openGraph: {
-    title: "PokerBear — Play sharper, win smarter",
+    title: "PokerBear — Predict privately. Win bigger.",
     description:
-      "The modern poker companion. Real-time odds, hand history, and buttery-smooth analytics.",
+      "A private, on-chain football prediction market powered by Arcium. Your positions stay encrypted, end to end.",
     type: "website",
   },
 };
@@ -62,6 +63,15 @@ export default function RootLayout({
         className="min-h-full bg-background text-foreground"
         suppressHydrationWarning
       >
+        {/* Prioritize the hero video so it starts fetching immediately.
+            React hoists this <link> into <head>. */}
+        <link
+          rel="preload"
+          as="video"
+          href="/assets/hero.webm"
+          type="video/webm"
+        />
+        <ContentGuard />
         <SmoothScroll>{children}</SmoothScroll>
       </body>
     </html>

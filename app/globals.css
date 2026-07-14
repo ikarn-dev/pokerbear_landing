@@ -55,6 +55,28 @@ body {
   overflow-x: hidden;
 }
 
+/* ---------------------------------------------------------------
+   Content protection: block selection, drag, and long-press save.
+   (Deters casual copy/download; paired with components/content-guard.tsx)
+--------------------------------------------------------------- */
+html {
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  user-select: none;
+  -webkit-touch-callout: none;
+}
+
+img,
+video,
+svg,
+canvas {
+  -webkit-user-drag: none;
+  -khtml-user-drag: none;
+  -moz-user-drag: none;
+  -o-user-drag: none;
+  user-select: none;
+}
+
 /* Interactive elements use the native finger pointer */
 button:not(:disabled),
 [role="button"],

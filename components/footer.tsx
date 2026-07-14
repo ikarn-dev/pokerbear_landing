@@ -3,6 +3,7 @@
 import Image from "next/image";
 import { motion } from "motion/react";
 import { useLenis } from "lenis/react";
+import GlassButton from "./glass-button";
 
 const EASE = [0.16, 1, 0.3, 1] as const;
 
@@ -24,6 +25,7 @@ export default function Footer() {
           fill
           sizes="100vw"
           priority
+          draggable={false}
           className="object-cover object-top brightness-[0.75] saturate-[0.7]"
         />
       </div>
@@ -31,44 +33,50 @@ export default function Footer() {
       {/* Subtle brand-tinted scrim (orange → pink) that keeps text legible */}
       <div className="pointer-events-none absolute inset-0 bg-[linear-gradient(180deg,rgba(11,7,8,0.55)_0%,rgba(255,122,24,0.10)_38%,rgba(255,30,99,0.12)_66%,rgba(11,7,8,0.6)_100%)]" />
 
-      <div className="relative w-full px-6 py-24 [text-shadow:0_1px_12px_rgba(0,0,0,0.55)] sm:px-10 sm:py-36 lg:px-16">
-        {/* CTA */}
-        <motion.div
-          initial={{ opacity: 0, y: 24 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true, margin: "-80px" }}
-          transition={{ duration: 0.7, ease: EASE }}
-          className="flex flex-col items-center text-center"
-        >
-          <h2 className="display-lg text-balance">
-            Make your <span className="text-gradient-brand">call</span>.
-          </h2>
-          <button
-            onClick={() => lenis?.scrollTo(0, { duration: 1.4 })}
-            className="group relative mt-7 inline-flex items-center justify-center overflow-hidden rounded-full border border-white/30 bg-white/10 px-8 py-3.5 text-base font-medium text-white shadow-[0_10px_34px_-10px_rgba(0,0,0,0.7),inset_0_1px_0_rgba(255,255,255,0.55)] backdrop-blur-md backdrop-saturate-150 transition-all duration-300 [text-shadow:0_1px_8px_rgba(0,0,0,0.55)] before:pointer-events-none before:absolute before:inset-x-0 before:top-0 before:h-1/2 before:bg-gradient-to-b before:from-white/30 before:to-transparent hover:scale-[1.03] hover:bg-white/[0.16] active:scale-95"
-          >
-            <span className="relative z-10">Start predicting</span>
-          </button>
-        </motion.div>
+      {/* Faded backdrop behind the bottom bar */}
+      <div className="pointer-events-none absolute inset-x-0 bottom-0 h-1/2 bg-gradient-to-t from-background via-background/45 to-transparent" />
 
+      {/* min-h is sized to preserve the current footer height while mt-auto
+          pins the bottom bar to the bottom edge. */}
+      <div className="relative flex min-h-[512px] w-full flex-col px-6 pt-24 pb-10 [text-shadow:0_1px_12px_rgba(0,0,0,0.55)] sm:min-h-[640px] sm:px-10 sm:pb-12 sm:pt-36 lg:px-16">
+        {/* CTA — the glass button is kept OUT of any opacity/filter-animated
+            wrapper so its backdrop-filter renders on first paint (an animating
+            opacity ancestor otherwise defers the blur until the fade ends). */}
+        <div className="flex flex-col items-center text-center">
+          <motion.h2
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true, margin: "-80px" }}
+            transition={{ duration: 0.7, ease: EASE }}
+            className="display-lg text-balance"
+          >
+            Make your <span className="text-gradient-brand">call</span>.
+          </motion.h2>
+          <GlassButton
+            label="Start predicting"
+            onClick={() => lenis?.scrollTo(0, { duration: 1.4 })}
+            className="mt-7 px-8 py-3.5 text-base"
+          />
+        </div>
+
+        {/* Pinned to the bottom edge */}
+        <div className="mt-auto">
         {/* Bottom bar */}
-        <div className="mt-24 flex flex-col items-center gap-6 border-t border-border pt-8 sm:mt-32 md:flex-row md:justify-between">
+        <div className="flex flex-col items-center gap-6 border-t border-border pt-8 md:flex-row md:justify-between">
           {/* Brand */}
           <button
             onClick={() => lenis?.scrollTo(0, { duration: 1.4 })}
-            className="flex items-center gap-2.5"
+            className="flex items-center gap-1"
             aria-label="Back to top"
           >
-            <span className="grid size-8 place-items-center rounded-lg bg-gradient-to-br from-brand-orange to-brand-pink text-background">
-              <svg width="16" height="16" viewBox="0 0 24 24" fill="none">
-                <path
-                  d="M12 4c4 0 7 2.9 7 6.8 0 4.5-3.1 8.2-7 8.2s-7-3.7-7-8.2C5 6.9 8 4 12 4Z"
-                  fill="currentColor"
-                />
-                <circle cx="9.3" cy="10.5" r="1" fill="#0b0708" />
-                <circle cx="14.7" cy="10.5" r="1" fill="#0b0708" />
-              </svg>
-            </span>
+            <Image
+              src="/assets/nav_logo.png"
+              alt="PokerBear logo"
+              width={32}
+              height={32}
+              draggable={false}
+              className="size-8 rounded-lg"
+            />
             <span className="font-display text-base font-semibold tracking-tight text-foreground">
               PokerBear
             </span>
@@ -94,6 +102,7 @@ export default function Footer() {
         <div className="mt-8 flex flex-col items-center justify-between gap-2 text-[11px] font-semibold uppercase tracking-[0.1em] text-foreground/90 [text-shadow:0_1px_3px_rgba(0,0,0,0.95)] sm:flex-row">
           <p>© {year} PokerBear. All rights reserved.</p>
           <p>18+ · Please predict responsibly.</p>
+        </div>
         </div>
       </div>
     </footer>

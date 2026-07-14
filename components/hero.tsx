@@ -3,6 +3,7 @@
 import { useRef } from "react";
 import { motion, useScroll, useTransform } from "motion/react";
 import { useLenis } from "lenis/react";
+import GlassButton from "./glass-button";
 
 const EASE = [0.16, 1, 0.3, 1] as const;
 
@@ -14,11 +15,22 @@ const container = {
 };
 
 const rise = {
-  hidden: { opacity: 0, y: 28, filter: "blur(8px)" },
+  // Only opacity + transform (GPU-composited) — no filter/blur animation, which
+  // would force per-frame repaints during the entrance.
+  hidden: { opacity: 0, y: 28 },
   show: {
     opacity: 1,
     y: 0,
-    filter: "blur(0px)",
+    transition: { duration: 0.9, ease: EASE },
+  },
+};
+
+// y-only variant (no opacity) for the glass button: an animating opacity
+// ancestor would defer its backdrop-filter until the fade finished.
+const riseNoFade = {
+  hidden: { y: 28 },
+  show: {
+    y: 0,
     transition: { duration: 0.9, ease: EASE },
   },
 };
@@ -58,6 +70,9 @@ export default function Hero() {
           muted
           playsInline
           preload="auto"
+          disablePictureInPicture
+          controlsList="nodownload"
+          draggable={false}
           aria-hidden
         />
         {/* Vignette + fade into page background for seamless blending */}
@@ -96,23 +111,14 @@ export default function Hero() {
           ))}
         </h1>
 
-        <motion.p
-          variants={rise}
-          className="mt-4 max-w-xl text-balance text-base leading-snug text-muted sm:text-lg"
-        >
-          A private football prediction market powered by Arcium — your
-          positions stay encrypted, end to end.
-        </motion.p>
-
-        <motion.div variants={rise} className="mt-6">
-          <button
+        <motion.div variants={riseNoFade} className="mt-8">
+          <GlassButton
+            label="Start predicting"
             onClick={() =>
               lenis?.scrollTo("#faq", { offset: -80, duration: 1.4 })
             }
-            className="rounded-full bg-foreground px-8 py-4 text-base font-medium text-background transition-transform duration-300 hover:scale-[1.03] active:scale-95"
-          >
-            Start predicting
-          </button>
+            className="px-8 py-3.5 text-base"
+          />
         </motion.div>
       </motion.div>
     </section>
