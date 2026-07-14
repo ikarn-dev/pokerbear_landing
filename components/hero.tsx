@@ -3,7 +3,6 @@
 import { useRef } from "react";
 import { motion, useScroll, useTransform } from "motion/react";
 import { useLenis } from "lenis/react";
-import EncryptionOverlay from "./encryption-overlay";
 
 const EASE = [0.16, 1, 0.3, 1] as const;
 
@@ -61,8 +60,6 @@ export default function Hero() {
           preload="auto"
           aria-hidden
         />
-        {/* Encryption-style cipher glyphs, monochrome and faint over the video */}
-        <EncryptionOverlay className="opacity-50" />
         {/* Vignette + fade into page background for seamless blending */}
         <div className="absolute inset-0 bg-[radial-gradient(120%_120%_at_50%_20%,transparent_20%,rgba(11,7,8,0.55)_65%,#0b0708_100%)]" />
         <div className="absolute inset-x-0 bottom-0 h-40 bg-gradient-to-b from-transparent to-background" />
