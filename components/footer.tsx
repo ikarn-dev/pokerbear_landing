@@ -3,7 +3,6 @@
 import Image from "next/image";
 import { motion } from "motion/react";
 import { useLenis } from "lenis/react";
-import FooterSparkles from "./footer-sparkles";
 
 const EASE = [0.16, 1, 0.3, 1] as const;
 
@@ -31,9 +30,6 @@ export default function Footer() {
 
       {/* Subtle brand-tinted scrim (orange → pink) that keeps text legible */}
       <div className="pointer-events-none absolute inset-0 bg-[linear-gradient(180deg,rgba(11,7,8,0.55)_0%,rgba(255,122,24,0.10)_38%,rgba(255,30,99,0.12)_66%,rgba(11,7,8,0.6)_100%)]" />
-
-      {/* Shiny sparkles mapped to the mosaic grid, colored from the image */}
-      <FooterSparkles />
 
       <div className="relative w-full px-6 py-24 [text-shadow:0_1px_12px_rgba(0,0,0,0.55)] sm:px-10 sm:py-36 lg:px-16">
         {/* CTA */}
