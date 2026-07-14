@@ -61,8 +61,8 @@ export default function Footer() {
 
         {/* Pinned to the bottom edge */}
         <div className="mt-auto">
-        {/* Bottom bar */}
-        <div className="flex flex-col items-center gap-6 border-t border-border pt-8 md:flex-row md:justify-between">
+        {/* Bottom bar — logo left, X right on every screen size */}
+        <div className="flex flex-row items-center justify-between gap-4 border-t border-border pt-6 sm:pt-8">
           {/* Brand */}
           <button
             onClick={() => lenis?.scrollTo(0, { duration: 1.4 })}
@@ -75,31 +75,33 @@ export default function Footer() {
               width={32}
               height={32}
               draggable={false}
-              className="size-8 rounded-lg"
+              className="size-7 rounded-lg sm:size-8"
             />
-            <span className="font-display text-base font-semibold tracking-tight text-foreground">
+            <span className="font-display text-sm font-semibold tracking-tight text-foreground sm:text-base">
               PokerBear
             </span>
           </button>
 
           {/* Social */}
-          <div className="flex items-center gap-4">
-            <a
-              href="https://x.com/PokerBearSol"
-              target="_blank"
-              rel="noopener noreferrer"
-              aria-label="PokerBear on X"
-              className="text-foreground/75 transition-colors hover:text-foreground"
+          <a
+            href="https://x.com/PokerBearSol"
+            target="_blank"
+            rel="noopener noreferrer"
+            aria-label="PokerBear on X"
+            className="text-foreground/75 transition-colors hover:text-foreground"
+          >
+            <svg
+              viewBox="0 0 24 24"
+              fill="currentColor"
+              className="size-[16px] sm:size-[18px]"
             >
-              <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor">
-                <path d="M18.9 2H22l-7.3 8.3L23.3 22h-6.8l-5.3-6.9L5.1 22H2l7.8-8.9L1 2h6.9l4.8 6.3L18.9 2Zm-1.2 18h1.9L7.4 3.9H5.4L17.7 20Z" />
-              </svg>
-            </a>
-          </div>
+              <path d="M18.9 2H22l-7.3 8.3L23.3 22h-6.8l-5.3-6.9L5.1 22H2l7.8-8.9L1 2h6.9l4.8 6.3L18.9 2Zm-1.2 18h1.9L7.4 3.9H5.4L17.7 20Z" />
+            </svg>
+          </a>
         </div>
 
         {/* Fine print */}
-        <div className="mt-8 flex flex-col items-center justify-between gap-2 text-[11px] font-semibold uppercase tracking-[0.1em] text-foreground/90 [text-shadow:0_1px_3px_rgba(0,0,0,0.95)] sm:flex-row">
+        <div className="mt-6 flex flex-col items-center justify-between gap-1.5 text-[clamp(9px,2.6vw,11px)] font-semibold uppercase tracking-[0.08em] text-foreground/90 [text-shadow:0_1px_3px_rgba(0,0,0,0.95)] sm:mt-8 sm:flex-row sm:tracking-[0.1em]">
           <p>© {year} PokerBear. All rights reserved.</p>
           <p>18+ · Please predict responsibly.</p>
         </div>

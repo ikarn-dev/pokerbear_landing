@@ -125,9 +125,9 @@ html.lenis body {
 .display-lg {
   font-family: var(--font-display), sans-serif;
   font-weight: 600;
-  line-height: 1;
+  line-height: 1.05;
   letter-spacing: -0.025em;
-  font-size: clamp(2rem, 5vw, 3.75rem);
+  font-size: clamp(1.5rem, 5.5vw, 3.75rem);
 }
 
 /* Mostly foreground text with a subtle orange brand shade fading in at the bottom */

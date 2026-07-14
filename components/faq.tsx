@@ -56,7 +56,7 @@ export default function Faq() {
   return (
     <section
       id="faq"
-      className="relative mx-auto w-full max-w-5xl px-6 py-16 sm:py-24 lg:px-10"
+      className="relative mx-auto w-full max-w-5xl px-4 py-14 sm:px-6 sm:py-24 lg:px-10"
     >
       <motion.div
         initial={{ opacity: 0, y: 24 }}
@@ -93,22 +93,22 @@ export default function Faq() {
               <button
                 onClick={() => setOpen(isOpen ? null : i)}
                 aria-expanded={isOpen}
-                className="flex w-full items-center gap-4 px-5 py-4 text-left sm:gap-5 sm:px-6 sm:py-[18px]"
+                className="flex w-full items-center gap-3 px-4 py-3.5 text-left sm:gap-5 sm:px-6 sm:py-[18px]"
               >
                 <span
-                  className={`w-6 shrink-0 font-mono text-xs tabular-nums transition-colors duration-300 ${
+                  className={`w-5 shrink-0 font-mono text-[11px] tabular-nums transition-colors duration-300 sm:w-6 sm:text-xs ${
                     isOpen ? "text-brand-orange" : "text-muted"
                   }`}
                 >
                   {number}
                 </span>
 
-                <span className="flex-1 font-display text-[clamp(0.95rem,0.88rem+0.4vw,1.15rem)] font-medium leading-snug tracking-tight">
+                <span className="flex-1 font-display text-[clamp(0.8rem,0.66rem+0.6vw,1.15rem)] font-medium leading-snug tracking-tight">
                   {item.q}
                 </span>
 
                 <span
-                  className={`grid size-8 shrink-0 place-items-center rounded-full border transition-colors duration-300 ${
+                  className={`grid size-7 shrink-0 place-items-center rounded-full border transition-colors duration-300 sm:size-8 ${
                     isOpen
                       ? "border-brand-orange/60 text-brand-orange"
                       : "border-border text-foreground/55"
@@ -143,10 +143,10 @@ export default function Faq() {
                   ref={(el) => {
                     answerRefs.current[i] = el;
                   }}
-                  className="flex gap-4 px-5 pb-5 sm:gap-5 sm:px-6"
+                  className="flex gap-3 px-4 pb-4 sm:gap-5 sm:px-6 sm:pb-5"
                 >
-                  <span aria-hidden className="w-6 shrink-0" />
-                  <p className="flex-1 max-w-2xl text-[clamp(0.85rem,0.8rem+0.32vw,0.975rem)] leading-relaxed text-muted">
+                  <span aria-hidden className="w-5 shrink-0 sm:w-6" />
+                  <p className="flex-1 max-w-2xl text-[clamp(0.82rem,0.76rem+0.3vw,0.975rem)] leading-relaxed text-muted">
                     {item.a}
                   </p>
                 </div>
