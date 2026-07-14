@@ -1,7 +1,7 @@
 "use client";
 
-import { useState } from "react";
-import { AnimatePresence, motion } from "motion/react";
+import { useCallback, useEffect, useRef, useState } from "react";
+import { motion } from "motion/react";
 
 const EASE = [0.16, 1, 0.3, 1] as const;
 
@@ -30,9 +30,34 @@ const FAQS = [
 
 export default function Faq() {
   const [open, setOpen] = useState<number | null>(0);
+  const [heights, setHeights] = useState<number[]>(() => FAQS.map(() => 0));
+  const answerRefs = useRef<(HTMLDivElement | null)[]>([]);
+
+  const measure = useCallback((): void => {
+    setHeights(answerRefs.current.map((el) => el?.scrollHeight ?? 0));
+  }, []);
+
+  useEffect(() => {
+    measure();
+    window.addEventListener("resize", measure);
+    if (document.fonts) {
+      void document.fonts.ready.then(measure);
+    }
+    return () => window.removeEventListener("resize", measure);
+  }, [measure]);
+
+  // Reserve the tallest answer's worth of space and absorb the difference in a
+  // bottom spacer. Total section height then stays constant whichever item is
+  // open, so the footer never shifts and nothing above moves upward.
+  const maxHeight = heights.length > 0 ? Math.max(...heights) : 0;
+  const openHeight = open === null ? 0 : heights[open];
+  const spacer = Math.max(0, maxHeight - openHeight);
 
   return (
-    <section id="faq" className="relative mx-auto w-full max-w-3xl px-6 py-28 sm:py-36">
+    <section
+      id="faq"
+      className="relative mx-auto w-full max-w-3xl px-6 py-16 sm:py-20"
+    >
       <motion.div
         initial={{ opacity: 0, y: 24 }}
         whileInView={{ opacity: 1, y: 0 }}
@@ -89,23 +114,31 @@ export default function Faq() {
                 </motion.span>
               </button>
 
-              <AnimatePresence initial={false}>
-                {isOpen && (
-                  <motion.div
-                    key="content"
-                    initial={{ height: 0, opacity: 0 }}
-                    animate={{ height: "auto", opacity: 1 }}
-                    exit={{ height: 0, opacity: 0 }}
-                    transition={{ duration: 0.4, ease: EASE }}
-                    className="overflow-hidden"
-                  >
-                    <p className="px-5 pb-6 text-muted sm:px-6">{item.a}</p>
-                  </motion.div>
-                )}
-              </AnimatePresence>
+              <motion.div
+                initial={false}
+                animate={{ height: isOpen ? heights[i] : 0, opacity: isOpen ? 1 : 0 }}
+                transition={{ duration: 0.4, ease: EASE }}
+                className="overflow-hidden"
+              >
+                <div
+                  ref={(el) => {
+                    answerRefs.current[i] = el;
+                  }}
+                >
+                  <p className="px-5 pb-6 text-muted sm:px-6">{item.a}</p>
+                </div>
+              </motion.div>
             </motion.div>
           );
         })}
+
+        {/* Height reserve — see note above. Keeps the section a constant height. */}
+        <motion.div
+          aria-hidden
+          initial={false}
+          animate={{ height: spacer }}
+          transition={{ duration: 0.4, ease: EASE }}
+        />
       </div>
     </section>
   );

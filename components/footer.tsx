@@ -35,7 +35,7 @@ export default function Footer() {
       {/* Shiny sparkles mapped to the mosaic grid, colored from the image */}
       <FooterSparkles />
 
-      <div className="relative w-full px-6 py-14 [text-shadow:0_1px_12px_rgba(0,0,0,0.55)] sm:px-10 sm:py-20 lg:px-16">
+      <div className="relative w-full px-6 py-24 [text-shadow:0_1px_12px_rgba(0,0,0,0.55)] sm:px-10 sm:py-36 lg:px-16">
         {/* CTA */}
         <motion.div
           initial={{ opacity: 0, y: 24 }}
@@ -47,19 +47,16 @@ export default function Footer() {
           <h2 className="display-lg text-balance">
             Make your <span className="text-gradient-brand">call</span>.
           </h2>
-          <p className="mt-3 max-w-md text-balance text-base tracking-tight text-foreground/85 sm:text-lg">
-            Private, on-chain football prediction markets — powered by Arcium.
-          </p>
           <button
             onClick={() => lenis?.scrollTo(0, { duration: 1.4 })}
-            className="mt-7 rounded-full bg-foreground px-7 py-3.5 text-base font-medium text-background transition-transform duration-300 hover:scale-[1.03] active:scale-95"
+            className="group relative mt-7 inline-flex items-center justify-center overflow-hidden rounded-full border border-white/30 bg-white/10 px-8 py-3.5 text-base font-medium text-white shadow-[0_10px_34px_-10px_rgba(0,0,0,0.7),inset_0_1px_0_rgba(255,255,255,0.55)] backdrop-blur-md backdrop-saturate-150 transition-all duration-300 [text-shadow:0_1px_8px_rgba(0,0,0,0.55)] before:pointer-events-none before:absolute before:inset-x-0 before:top-0 before:h-1/2 before:bg-gradient-to-b before:from-white/30 before:to-transparent hover:scale-[1.03] hover:bg-white/[0.16] active:scale-95"
           >
-            Start predicting
+            <span className="relative z-10">Start predicting</span>
           </button>
         </motion.div>
 
         {/* Bottom bar */}
-        <div className="mt-14 flex flex-col items-center gap-6 border-t border-border pt-8 sm:mt-16 md:flex-row md:justify-between">
+        <div className="mt-24 flex flex-col items-center gap-6 border-t border-border pt-8 sm:mt-32 md:flex-row md:justify-between">
           {/* Brand */}
           <button
             onClick={() => lenis?.scrollTo(0, { duration: 1.4 })}
@@ -98,7 +95,7 @@ export default function Footer() {
         </div>
 
         {/* Fine print */}
-        <div className="mt-8 flex flex-col items-center justify-between gap-2 text-[11px] uppercase tracking-[0.12em] text-foreground/60 sm:flex-row">
+        <div className="mt-8 flex flex-col items-center justify-between gap-2 text-[11px] font-semibold uppercase tracking-[0.1em] text-foreground/90 [text-shadow:0_1px_3px_rgba(0,0,0,0.95)] sm:flex-row">
           <p>© {year} PokerBear. All rights reserved.</p>
           <p>18+ · Please predict responsibly.</p>
         </div>
