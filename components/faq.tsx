@@ -29,7 +29,7 @@ const FAQS = [
 ];
 
 export default function Faq() {
-  const [open, setOpen] = useState<number | null>(0);
+  const [open, setOpen] = useState<number | null>(null);
   const [heights, setHeights] = useState<number[]>(() => FAQS.map(() => 0));
   const answerRefs = useRef<(HTMLDivElement | null)[]>([]);
 
@@ -46,12 +46,12 @@ export default function Faq() {
     return () => window.removeEventListener("resize", measure);
   }, [measure]);
 
-  // Reserve the tallest answer's worth of space and absorb the difference in a
-  // bottom spacer, so the section height stays constant and the footer never
-  // shifts when an item opens.
+  // When everything is closed the section stays compact (no reserved gap).
+  // Once an item is open, reserve the tallest answer and absorb the difference
+  // in a bottom spacer, so switching between items never shifts the footer.
   const maxHeight = heights.length > 0 ? Math.max(...heights) : 0;
   const openHeight = open === null ? 0 : heights[open];
-  const spacer = Math.max(0, maxHeight - openHeight);
+  const spacer = open === null ? 0 : Math.max(0, maxHeight - openHeight);
 
   return (
     <section

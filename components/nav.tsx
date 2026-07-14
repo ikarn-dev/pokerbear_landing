@@ -29,21 +29,23 @@ export default function Nav() {
             height={36}
             priority
             draggable={false}
-            className="size-9 rounded-xl"
+            className="size-8 rounded-xl sm:size-9"
           />
-          <span className="font-display text-lg font-semibold tracking-tight">
+          <span className="font-display text-base font-semibold tracking-tight sm:text-lg">
             PokerBear
           </span>
         </button>
 
-        {/* CTA */}
-        <GlassButton
-          label="Get started"
-          onClick={() =>
-            lenis?.scrollTo("#pricing", { offset: -40, duration: 1.4 })
-          }
-          className="px-5 py-2.5 text-sm"
-        />
+        {/* CTA — hidden on mobile */}
+        <div className="hidden sm:block">
+          <GlassButton
+            label="Get started"
+            onClick={() =>
+              lenis?.scrollTo("#pricing", { offset: -40, duration: 1.4 })
+            }
+            className="px-5 py-2.5 text-sm"
+          />
+        </div>
       </nav>
     </motion.header>
   );

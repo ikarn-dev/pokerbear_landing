@@ -117,7 +117,7 @@ export default function Hero() {
             onClick={() =>
               lenis?.scrollTo("#faq", { offset: -80, duration: 1.4 })
             }
-            className="px-8 py-3.5 text-base"
+            className="px-6 py-3 text-sm sm:px-8 sm:py-3.5 sm:text-base"
           />
         </motion.div>
       </motion.div>

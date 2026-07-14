@@ -55,7 +55,7 @@ export default function Footer() {
           <GlassButton
             label="Start predicting"
             onClick={() => lenis?.scrollTo(0, { duration: 1.4 })}
-            className="mt-7 px-8 py-3.5 text-base"
+            className="mt-6 px-6 py-3 text-sm sm:mt-7 sm:px-8 sm:py-3.5 sm:text-base"
           />
         </div>
 
