@@ -114,9 +114,7 @@ export default function Hero() {
         <motion.div variants={riseNoFade} className="mt-8">
           <GlassButton
             label="Start predicting"
-            onClick={() =>
-              lenis?.scrollTo("#faq", { offset: -80, duration: 1.4 })
-            }
+            href="https://play.pokerbear.xyz"
             className="px-6 py-3 text-sm sm:px-8 sm:py-3.5 sm:text-base"
           />
         </motion.div>

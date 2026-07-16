@@ -4,6 +4,7 @@ import Image from "next/image";
 import { motion } from "motion/react";
 import { useLenis } from "lenis/react";
 import GlassButton from "./glass-button";
+import PoweredBy from "./powered-by";
 
 const EASE = [0.16, 1, 0.3, 1] as const;
 
@@ -38,7 +39,7 @@ export default function Footer() {
 
       {/* min-h is sized to preserve the current footer height while mt-auto
           pins the bottom bar to the bottom edge. */}
-      <div className="relative flex min-h-[512px] w-full flex-col px-6 pt-24 pb-10 [text-shadow:0_1px_12px_rgba(0,0,0,0.55)] sm:min-h-[640px] sm:px-10 sm:pb-12 sm:pt-36 lg:px-16">
+      <div className="relative flex min-h-[512px] w-full flex-col px-6 pt-24 pb-4 [text-shadow:0_1px_12px_rgba(0,0,0,0.55)] sm:min-h-[640px] sm:px-10 sm:pb-6 sm:pt-36 lg:px-16">
         {/* CTA — the glass button is kept OUT of any opacity/filter-animated
             wrapper so its backdrop-filter renders on first paint (an animating
             opacity ancestor otherwise defers the blur until the fade ends). */}
@@ -54,13 +55,16 @@ export default function Footer() {
           </motion.h2>
           <GlassButton
             label="Start predicting"
-            onClick={() => lenis?.scrollTo(0, { duration: 1.4 })}
+            href="https://play.pokerbear.xyz"
             className="mt-6 px-6 py-3 text-sm sm:mt-7 sm:px-8 sm:py-3.5 sm:text-base"
           />
         </div>
 
+        {/* Powered-by brand pills that fall and pile up above the bottom bar */}
+        <PoweredBy />
+
         {/* Pinned to the bottom edge */}
-        <div className="mt-auto">
+        <div className="mt-8">
         {/* Bottom bar — logo left, X right on every screen size */}
         <div className="flex flex-row items-center justify-between gap-4 border-t border-border pt-6 sm:pt-8">
           {/* Brand */}
@@ -101,7 +105,7 @@ export default function Footer() {
         </div>
 
         {/* Fine print */}
-        <div className="mt-6 flex flex-col items-center justify-between gap-1.5 text-[clamp(9px,2.6vw,11px)] font-semibold uppercase tracking-[0.08em] text-foreground/90 [text-shadow:0_1px_3px_rgba(0,0,0,0.95)] sm:mt-8 sm:flex-row sm:tracking-[0.1em]">
+        <div className="mt-5 flex flex-col items-center justify-between gap-1 font-mono text-[clamp(8px,2.1vw,10px)] font-medium uppercase tracking-[0.06em] text-foreground/90 [text-shadow:0_1px_3px_rgba(0,0,0,0.95)] sm:mt-8 sm:flex-row sm:tracking-[0.1em]">
           <p>© {year} PokerBear. All rights reserved.</p>
           <p>18+ · Please predict responsibly.</p>
         </div>

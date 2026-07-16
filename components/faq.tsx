@@ -85,7 +85,7 @@ export default function Faq() {
         transition={{ duration: 0.8, ease: EASE }}
         className="mb-12 text-center"
       >
-        <span className="mb-6 inline-flex items-center rounded-full border border-border bg-white/5 px-5 py-2 text-sm font-semibold uppercase tracking-[0.22em] text-foreground/90">
+        <span className="mb-6 inline-flex items-center rounded-full border border-border bg-white/5 px-5 py-2 font-mono text-sm font-medium uppercase tracking-[0.22em] text-foreground/90">
           FAQ
         </span>
         <h2 className="display-lg text-balance">Questions, answered</h2>

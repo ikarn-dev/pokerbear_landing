@@ -40,9 +40,7 @@ export default function Nav() {
         <div className="hidden sm:block">
           <GlassButton
             label="Get started"
-            onClick={() =>
-              lenis?.scrollTo("#pricing", { offset: -40, duration: 1.4 })
-            }
+            href="https://play.pokerbear.xyz"
             className="px-5 py-2.5 text-sm"
           />
         </div>
