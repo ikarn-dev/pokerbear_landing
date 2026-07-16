@@ -7,24 +7,44 @@ const EASE = [0.16, 1, 0.3, 1] as const;
 
 const FAQS = [
   {
-    q: "Is PokerBear legal to use while playing?",
-    a: "PokerBear is a study and analytics companion. It's built for reviewing your own hand histories, training, and off-table analysis. Always check the terms of the specific room or venue you play in — we never automate play or interact with live tables.",
+    q: "What is PokerBear?",
+    a: "PokerBear is a privacy-first, fully collateralized football prediction market on Solana. The current World Cup devnet experience lets you browse fixtures, fund a private balance with Circle devnet USDC, place pre-kickoff Team A / Draw / Team B orders, and claim settled positions from one web app.",
   },
   {
-    q: "Which sites and formats are supported?",
-    a: "We support the major online rooms plus manual entry for live sessions. Cash, MTTs, and Sit & Gos are all covered, with hand-history import for the most popular platforms and a clean flow for logging live hands on the go.",
+    q: "What does PokerBear keep private — and what remains public?",
+    a: "Your chosen outcome, limit price, quantity, minimum fill, exact internal balance and debit, position ownership, and claim witness are encrypted in your browser and evaluated by Arcium. Aggregate clearing prices, matched volume, market liability, outcomes, commitments, nullifiers, and proof receipts remain public for price discovery and solvency checks. Deposits, withdrawals, claim payouts, and the wallet accounts used to queue an order are still visible on Solana, so PokerBear does not claim full wallet unlinkability.",
   },
   {
-    q: "How real-time is the odds engine?",
-    a: "The solver runs on-device and renders at 60fps, so equity, ranges, and GTO suggestions update the instant you change a card. No spinners, no waiting — just smooth, immediate feedback.",
+    q: "How does a private order work?",
+    a: "Your browser encrypts the order and your wallet signs a short-lived authorization that expires at market close or within five minutes. Arcium privately checks the outcome, price, size, minimum fill, and available balance across a complete matched set. Solana then commits the aggregate escrow funding and encrypted balance updates atomically; an unmatched set can be released after expiry.",
   },
   {
-    q: "Do I need a powerful computer?",
-    a: "No. PokerBear is engineered to feel instant on modern laptops and phones. The heavy lifting is optimized to stay buttery smooth, even during deep multi-street analysis.",
+    q: "Who holds the collateral?",
+    a: "Users pre-fund a Solana program-controlled aggregate pool; the matcher never takes custody. After a valid match, only the complete-set backing moves into that market's isolated escrow. This keeps every position fully collateralized, and a withdrawal authorization is bound to its owner, amount, and destination so an operator cannot redirect it.",
   },
   {
-    q: "Can I cancel anytime?",
-    a: "Yes. Plans are month-to-month with no lock-in. Start with a free trial, and if it's not for you, cancel in two taps — your data export is always available.",
+    q: "How is PokerBear different from a public or custodial prediction market?",
+    a: "Public order books reveal a trader's side, size, and price before execution, while custodial platforms also require trust in an operator's internal ledger. PokerBear encrypts pre-trade strategy and owner-linked positions, keeps collateral and settlement rules on Solana, and publishes aggregate market data for price discovery and solvency checks. The practical benefit is less strategy leakage without giving up verifiable backing and resolution.",
+  },
+  {
+    q: "How are football results settled?",
+    a: "TxLINE supplies the football data and proof used by a separate no-custody settlement adapter. A result becomes final only after the adapter creates an immutable proof receipt and PokerBear's core program independently verifies it. If no valid proof arrives by the fixed deadline, anyone can void the market and each private note is refunded at its exact recorded cost. A separate Pyth adapter exists for compatible price markets, but it is not the World Cup settlement path.",
+  },
+  {
+    q: "Which football markets can I trade?",
+    a: "Managed football markets use Team A / Draw / Team B outcomes, and orders close before kickoff. Live scores and reference odds can continue updating after kickoff, but PokerBear does not offer in-play orders, lineup props, or leverage. TxLINE odds are reference data only: a fresh one-cent move invalidates the preview and asks you to confirm again instead of silently changing your encrypted limit.",
+  },
+  {
+    q: "What market and portfolio tools are included?",
+    a: "You can browse Live, Upcoming, and Past fixtures; filter by league, team, or local date; and inspect the provider favorite, compact trends, probability history, and derived OHLC candlestick views. The portfolio tracks private order status, positions, P/L, claims, deposits, and withdrawals, with optional Telegram alerts for fixture and settlement updates.",
+  },
+  {
+    q: "Where is my private portfolio history stored?",
+    a: "Private activity and recovery records are encrypted in your browser with keys derived from a wallet signature. Your portfolio can identify the opaque position notes that belong to you without publishing an owner-keyed position list. You can export an encrypted backup and restore it after clearing browser data or moving to another device.",
+  },
+  {
+    q: "Is PokerBear live with real money, and what does it cost?",
+    a: "The current release is a devnet test experience using valueless Circle Solana devnet USDC, not a production real-money market. Deposits must be at least 5 USDC and each order must cost at least 1 USDC. PokerBear charges no application withdrawal fee or product-level withdrawal minimum, although the transaction payer still pays Solana network fees.",
   },
 ];
 
