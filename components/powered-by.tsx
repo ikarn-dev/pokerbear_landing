@@ -203,7 +203,7 @@ export default function PoweredBy() {
             ref={(node) => {
               pillRefs.current[i] = node;
             }}
-            className={`inline-flex items-center rounded-full border border-white/25 bg-gradient-to-br from-brand-orange to-brand-pink px-3 py-2 shadow-[0_10px_28px_-8px_rgba(0,0,0,0.8)] sm:px-4 sm:py-2.5 ${
+            className={`inline-flex items-center rounded-full border border-white/20 bg-gradient-to-b from-brand-orange to-brand-pink px-2.5 py-1.5 shadow-[inset_0_1px_0_rgba(255,255,255,0.3),inset_0_-6px_14px_-8px_rgba(0,0,0,0.4),0_6px_18px_-8px_rgba(0,0,0,0.75)] sm:px-3 sm:py-1.5 ${
               physics
                 ? "absolute left-0 top-0 opacity-0 will-change-transform cursor-grab active:cursor-grabbing"
                 : "relative"
@@ -214,7 +214,7 @@ export default function PoweredBy() {
               src={logo.src}
               alt={logo.alt}
               draggable={false}
-              className="pointer-events-none h-4 w-auto select-none sm:h-5"
+              className="pointer-events-none h-3.5 w-auto select-none sm:h-4"
             />
           </div>
         ))}

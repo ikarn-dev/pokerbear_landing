@@ -2,6 +2,7 @@
 
 import { useCallback, useEffect, useRef, useState } from "react";
 import { motion } from "motion/react";
+import FaqBackdrop from "./faq-backdrop";
 
 const EASE = [0.16, 1, 0.3, 1] as const;
 
@@ -74,10 +75,10 @@ export default function Faq() {
   const spacer = open === null ? 0 : Math.max(0, maxHeight - openHeight);
 
   return (
-    <section
-      id="faq"
-      className="relative mx-auto w-full max-w-5xl px-4 py-14 sm:px-6 sm:py-24 lg:px-10"
-    >
+    <section id="faq" className="relative isolate w-full overflow-hidden">
+      <FaqBackdrop />
+
+      <div className="relative z-10 mx-auto w-full max-w-5xl px-4 py-16 sm:px-6 sm:py-28 lg:px-10">
       <motion.div
         initial={{ opacity: 0, y: 24 }}
         whileInView={{ opacity: 1, y: 0 }}
@@ -103,12 +104,13 @@ export default function Faq() {
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true, margin: "-60px" }}
               transition={{ duration: 0.6, ease: EASE, delay: i * 0.05 }}
-              className={`overflow-hidden rounded-2xl border transition-[background-color,border-color,box-shadow] duration-300 ${
+              className={`rounded-2xl p-px transition-[background,box-shadow] duration-500 ${
                 isOpen
-                  ? "border-brand-orange/55 bg-white/[0.035] shadow-[0_0_0_1px_rgba(255,122,24,0.3),0_0_14px_0_rgba(255,122,24,0.32)]"
-                  : "border-border bg-white/[0.015] hover:bg-white/[0.03]"
+                  ? "bg-gradient-to-b from-brand-orange/70 via-brand-pink/25 to-white/[0.06] shadow-[0_0_22px_-8px_rgba(255,122,24,0.5)]"
+                  : "bg-gradient-to-b from-white/[0.12] to-white/[0.02] hover:from-white/[0.22] hover:to-white/[0.05]"
               }`}
             >
+              <div className="overflow-hidden rounded-[15px] bg-[#0d0809] shadow-[inset_0_1px_0_0_rgba(255,255,255,0.04)]">
               {/* Header row: number · question · toggle */}
               <button
                 onClick={() => setOpen(isOpen ? null : i)}
@@ -171,6 +173,7 @@ export default function Faq() {
                   </p>
                 </div>
               </motion.div>
+              </div>
             </motion.div>
           );
         })}
@@ -182,6 +185,7 @@ export default function Faq() {
           animate={{ height: spacer }}
           transition={{ duration: 0.4, ease: EASE }}
         />
+      </div>
       </div>
     </section>
   );
